@@ -2,6 +2,8 @@ version: "3"
 
 services:
   client:
+    env_file:
+      - .env
     build: ./client
     container_name: next-app
     image: next-app
@@ -9,6 +11,8 @@ services:
       - "5000:3000"
 
   server:
+    env_file:
+      - .env
     build: ./server
     container_name: express-app
     image: express-app
