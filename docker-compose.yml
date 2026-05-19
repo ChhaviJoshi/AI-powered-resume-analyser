@@ -1,10 +1,11 @@
-version: "3"
-
 services:
   client:
     env_file:
       - .env
-    build: ./client
+    build:
+      context: ./client
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
     container_name: next-app
     image: next-app
     ports:
