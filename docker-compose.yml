@@ -1,21 +1,14 @@
 services:
   client:
     env_file:
-      - .env
-    build:
-      context: ./client
-      args:
-        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
-    container_name: next-app
-    image: next-app
+      - ./client/.env
+    build: ./client
     ports:
       - "5000:3000"
 
   server:
     env_file:
-      - .env
+      - ./server/.env
     build: ./server
-    container_name: express-app
-    image: express-app
     ports:
       - "3000:3000"
