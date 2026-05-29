@@ -6,8 +6,8 @@ import { useAuth } from "../../../hooks/useAuth";
 import { useInterview } from "../../../hooks/useInterview";
 import { useState, useEffect } from "react";
 
-const page = () => {
-  const { user } = useAuth();
+const AnalyzePage = () => {
+  const { user, loading: authLoading } = useAuth();
   const router = useRouter();
 
   const { handleAnalyzeResume, loading } = useInterview();
@@ -25,6 +25,14 @@ const page = () => {
       router.push("/reports");
     }
   }, [loading, hasSubmitted, router]);
+
+  if (authLoading) {
+    return (
+      <div className="bg-black min-h-screen text-white flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-r-2 border-pink-500"></div>
+      </div>
+    );
+  }
 
   if (!user) {
     return (
@@ -218,4 +226,4 @@ e.g., 'Senior Frontend Engineer at Google requires proficiency in React, TypeScr
   );
 };
 
-export default page;
+export default AnalyzePage;

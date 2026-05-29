@@ -35,14 +35,15 @@ export async function login({identifier , password}) {
 
 export async function logout() {
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout` , {
-            withCredentials : true
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout`, {}, {
+            withCredentials: true
         });
 
         return response.data
 
     } catch (error) {
         console.log("error:", error);
+        throw error;
     }
 }
 
@@ -52,9 +53,10 @@ export async function getme() {
             withCredentials : true
         });
 
-        return response.data
+        return response.data.user
         
     } catch (error) {
         console.log("error:", error);
+        throw error;
     }
 }

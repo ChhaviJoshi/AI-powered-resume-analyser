@@ -6,17 +6,21 @@ import { useAuth } from '@/hooks/useAuth.js'
 import { useState } from 'react'
 import { useRouter } from "next/navigation";
 
-const page = () => {
+const LoginPage = () => {
   const {loading, handleLogin} = useAuth();
   const navigate = useRouter();
 
   const [identifier, setIdentifier] = useState('')
   const [password, setPassword] = useState('')
 
-  function handleSubmit(e){
+  async function handleSubmit(e){
     e.preventDefault();
-    handleLogin({ identifier, password });
-    navigate.push("/analyze");
+    try {
+      await handleLogin({ identifier, password });
+      navigate.push("/analyze");
+    } catch (error) {
+      console.log("Login failed:", error);
+    }
   }
   return (
     <div>
@@ -49,4 +53,4 @@ const page = () => {
   )
 }
 
-export default page
+export default LoginPage

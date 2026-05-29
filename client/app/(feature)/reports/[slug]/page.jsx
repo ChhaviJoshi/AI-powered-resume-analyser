@@ -7,12 +7,16 @@ import { useAuth } from "@/hooks/useAuth";
 export default function ReportDetailPage() {
   const { slug } = useParams();
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [report, setReport] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
+    if (authLoading) {
+      return;
+    }
+
     if (!user) {
       router.push("/login");
       return;
@@ -43,7 +47,7 @@ export default function ReportDetailPage() {
     if (slug) {
       fetchReportDetails();
     }
-  }, [slug, user, router]);
+  }, [slug, user, authLoading, router]);
 
   if (loading) {
     return (
@@ -159,8 +163,8 @@ export default function ReportDetailPage() {
                       </div>
                       <div className="p-5 grid gap-4 text-sm">
                         <div>
-                          <span className="font-bold text-gray-300 block mb-1 text-xs uppercase">Interviewer's Intent:</span>
-                          <p className="text-gray-400 leading-relaxed italic">"{q.intention}"</p>
+                          <span className="font-bold text-gray-300 block mb-1 text-xs uppercase">Interviewer&apos;s Intent:</span>
+                          <p className="text-gray-400 leading-relaxed italic">&quot;{q.intention}&quot;</p>
                         </div>
                         <div className="bg-green-500/5 border border-green-500/10 rounded-xl p-4">
                           <span className="font-bold text-green-400 block mb-1 text-xs uppercase">Recommended Approach / Answer:</span>
@@ -189,7 +193,7 @@ export default function ReportDetailPage() {
                       <div className="p-5 grid gap-4 text-sm">
                         <div>
                           <span className="font-bold text-gray-300 block mb-1 text-xs uppercase">Soft Skill Evaluated:</span>
-                          <p className="text-gray-400 leading-relaxed italic">"{q.intention}"</p>
+                          <p className="text-gray-400 leading-relaxed italic">&quot;{q.intention}&quot;</p>
                         </div>
                         <div className="bg-blue-500/5 border border-blue-500/10 rounded-xl p-4">
                           <span className="font-bold text-blue-400 block mb-1 text-xs uppercase">Best Framework (STAR Method):</span>

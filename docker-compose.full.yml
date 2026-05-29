@@ -1,0 +1,32 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  server:
+    container_name: express-app
+    build: ./server
+    env_file:
+      - ./server/.env
+    depends_on:
+      - mongodb
+    ports:
+      - "3000:3000"
+
+  client:
+    container_name: next-app
+    build: ./client
+    env_file:
+      - ./client/.env
+    ports:
+      - "5000:3000"
+
+volumes:
+  mongo-data:

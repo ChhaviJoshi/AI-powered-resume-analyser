@@ -1,13 +1,12 @@
 "use client";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { getme } from "@/services/auth.api.js";
-import { useEffect } from "react";
 
 export const authContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     
     useEffect(() => {
         const fetchUser = async () => {
@@ -17,6 +16,7 @@ export const AuthProvider = ({ children }) => {
                 setUser(userData);
             } catch (error) {
                 console.error("Failed to fetch user data:", error);
+                setUser(null);
             } finally {
                 setLoading(false);
             }

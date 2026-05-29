@@ -5,19 +5,19 @@ import { useInterview } from "../../../hooks/useInterview";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../../hooks/useAuth";
 
-const page = () => {
+const ReportsPage = () => {
   const { reports = [], report } = useInterview();
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const reportsPerPage = 5;
 
   useEffect(() => {
-    if (!user) {
+    if (!loading && !user) {
       router.push("/login");
     }
-  }, [user, router]);
+  }, [loading, user, router]);
 
   // Combine reports with newly generated report
   const allReportsData = useMemo(() => {
@@ -36,11 +36,6 @@ const page = () => {
         rep?.jobDescription?.toLowerCase().includes(query)
     );
   }, [allReportsData, searchQuery]);
-
-  // Reset pagination when search changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchQuery]);
 
   // Pagination
   const totalPages = Math.ceil((filteredReports?.length || 0) / reportsPerPage);
@@ -69,7 +64,7 @@ const page = () => {
     });
   };
 
-  if (!user) {
+  if (loading || !user) {
     return null;
   }
 
@@ -91,7 +86,10 @@ const page = () => {
               type="text"
               placeholder="Search by job title or company..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setCurrentPage(1);
+              }}
               className="w-full bg-gray-900 border border-gray-800 rounded-lg px-4 py-2.5 text-gray-200 placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
             />
             <svg className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -240,4 +238,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ReportsPage;

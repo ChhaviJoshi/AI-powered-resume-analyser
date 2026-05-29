@@ -6,7 +6,7 @@ import { useAuth } from '../../../hooks/useAuth'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-const page = () => {
+const SignupPage = () => {
 
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
@@ -45,7 +45,9 @@ const page = () => {
               <input onChange={(e) => setPassword(e.target.value)} name="password" type="password" id='password' placeholder='Enter Your Password ' className='border-gray-500 border-2 rounded-3xl w-full px-2 py-2' />
             </div>
 
-            <button className='w-60 px-4 py-2 bg-linear-to-r from-blue-500 to-purple-500 text-white rounded-4xl ml-25 cursor-pointer'>Submit</button>
+            <button disabled={loading} className='w-60 px-4 py-2 bg-linear-to-r from-blue-500 to-purple-500 text-white rounded-4xl ml-25 cursor-pointer'>
+              {loading ? 'Signing up...' : 'Submit'}
+            </button>
           </form>
 
           <p className='w-full flex justify-center '> Already  have an account ? <Link href="/login" className='text-purple-500 ml-2'>login</Link></p>
@@ -56,4 +58,4 @@ const page = () => {
   )
 }
 
-export default page
+export default SignupPage

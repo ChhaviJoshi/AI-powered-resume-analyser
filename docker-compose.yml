@@ -1,14 +1,18 @@
 services:
-  client:
-    env_file:
-      - ./client/.env
-    build: ./client
-    ports:
-      - "5000:3000"
-
   server:
+    container_name: express-app
+    build: ./server
     env_file:
       - ./server/.env
-    build: ./server
     ports:
       - "3000:3000"
+
+  client:
+    container_name: next-app
+    build: ./client
+    env_file:
+      - ./client/.env
+    depends_on:
+      - server
+    ports:
+      - "5000:3000"
