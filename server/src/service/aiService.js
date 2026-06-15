@@ -1,9 +1,11 @@
 const { GoogleGenAI } = require("@google/genai");
 
+//API KEY
 const ai = new GoogleGenAI({
     apiKey: process.env.GOOGLE_API_KEY
 });
 
+//Output format for json response
 const geminiResponseSchema = {
   type: "object",
   properties: {
@@ -77,6 +79,7 @@ const geminiResponseSchema = {
   ]
 };
 
+//Prompt
 async function generateResumeReport({resumeDescriptionData , selfDescriptionData , jobDescriptionData}) {
 
     const prompt = `You are an expert technical interviewer and Senior Engineering Manager. Your task is to perform a deep, critical analysis of a candidate's profile against a specific Job Description.
